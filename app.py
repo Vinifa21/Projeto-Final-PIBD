@@ -58,8 +58,27 @@ def menu_relatorio_folha():
 
 
 def funcionalidade3():
-    # para  funcionalidade do próximo 
-    pass
+    print("\n" + "="*40)
+    print(" Servidores em uma Lotação ")
+    print("="*40)
+
+    lotacao = input("Digite a sigla da lotação: ")
+
+    dados = database.servidores_por_lotacao(lotacao)
+
+    if not dados:
+        print("\n[AVISO] Nenhum servidor encontrado nessa lotação.")
+    else:
+        print("\n" + "-" * 125)
+        print(f"{'Matrícula':<10} | {'Nome':<25} | {'Tipo':<10} | {'E-mail':<30} | {'Telefone':<15} | {'Situação':<10}")
+        print("-" * 125)
+
+        for matricula, nome, email, telefone, situacao, tipo in dados:
+            print(f"{matricula:<10} | {nome:<25} | {tipo:<10} | {email:<30} | {telefone:<15} | {situacao:<10}")
+
+        print("-" * 125)
+
+    input("\nPressione ENTER para voltar ao menu principal...")
 
 def main():
     while True:
@@ -68,7 +87,7 @@ def main():
         print("="*40)
         print("1. Processar Folha de Pagamento")
         print("2. Consulta de Folhas")
-        print("3. Funcionalidade 3")
+        print("3. Ver Servidores por Lotacao")
         print("4. Funcionalidade 4")
         print("0. Sair do Sistema")
         print("="*40)
@@ -80,8 +99,8 @@ def main():
         elif opcao == '2':
             menu_relatorio_folha()
         elif opcao == '3':
-            #chamar funcionalidade 3 aq
-            pass
+            funcionalidade3()
+            
         elif opcao == '4':
             pass
         elif opcao == '0':

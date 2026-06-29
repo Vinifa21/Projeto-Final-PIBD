@@ -53,3 +53,38 @@ def relatorio_gastos_por_competencia(competencia):
     cursor.close()
     conn.close()
     return resultados
+
+def servidores_por_lotacao(sigla_lotacao):
+    """
+    Retorna todos os servidores de uma determinada lotação.
+    """
+    conn = obter_conexao()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT
+            s.matricula,
+            s.nome,
+            s.email,
+            s.telefone,
+            s.situacao_funcional,
+            CASE
+                WHEN p.matricula IS NOT NULL THEN 'Professor'
+                WHEN t.matricula IS NOT NULL THEN 'Técnico'
+                ELSE 'Não informado'
+            END AS tipo
+        FROM servidor s
+        LEFT JOIN professor p
+            ON s.matricula = p.matricula
+        LEFT JOIN tecnico t
+            ON s.matricula = t.matricula
+        WHERE s.sigla_lotacao = %s
+        ORDER BY s.nome;
+    """, (sigla_lotacao,))
+
+    resultados = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return resultados
