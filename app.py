@@ -103,6 +103,41 @@ def liquido_por_departamento():
 
     input("\nPressione ENTER para voltar ao menu principal...")
 
+def servidores_por_cargo_menu():
+
+    print("\n" + "="*40)
+    print(" Servidores por Cargo ")
+    print("="*40)
+
+    cargo = int(input("Digite o ID do cargo: "))
+
+
+    dados = database.servidores_por_cargo(cargo)
+
+
+    if not dados:
+        print("\n[AVISO] Nenhum servidor encontrado para esse cargo.")
+
+    else:
+
+        print("\n" + "-"*60)
+        print(
+            f"{'Matrícula':<12} | {'Nome':<30} | {'Cargo'}"
+        )
+
+        print("-"*60)
+
+        for matricula, nome, cargo_nome in dados:
+
+            print(
+                f"{matricula:<12} | {nome:<30} | {cargo_nome}"
+            )
+
+        print("-"*60)
+
+
+    input("\nPressione ENTER para voltar ao menu...")
+
 def main():
     while True:
         print("\n" + "="*40)
@@ -112,6 +147,7 @@ def main():
         print("2. Consulta de Folhas")
         print("3. Ver Servidores por Lotacao")
         print("4. Liquido por Departamento (competencia)")
+        print("5. Servidores por Cargo")
         print("0. Sair do Sistema")
         print("="*40)
         
@@ -126,6 +162,8 @@ def main():
             
         elif opcao == '4':
             liquido_por_departamento()
+        elif opcao == '5':
+            servidores_por_cargo_menu()
         elif opcao == '0':
             print("\nEncerrando o sistema...")
             break

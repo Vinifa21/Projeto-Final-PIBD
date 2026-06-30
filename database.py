@@ -89,6 +89,34 @@ def servidores_por_lotacao(sigla_lotacao):
 
     return resultados
 
+def servidores_por_cargo(id_cargo):
+    """
+    Retorna servidores que possuem determinado cargo.
+    Envolve as entidades servidor e cargo.
+    """
+
+    conn = obter_conexao()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT 
+            s.matricula,
+            s.nome,
+            c.nome
+        FROM servidor s
+        JOIN cargo c
+            ON s.id_cargo = c.id_cargo
+        WHERE c.id_cargo = %s
+        ORDER BY s.nome;
+    """, (id_cargo,))
+
+    resultados = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return resultados
+
 def liquido_por_departamento(competencia):
     """
     Relatório: valor líquido de cada servidor e o seu departamento (lotação)
