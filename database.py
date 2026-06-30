@@ -88,3 +88,30 @@ def servidores_por_lotacao(sigla_lotacao):
     conn.close()
 
     return resultados
+
+def liquido_por_departamento(competencia):
+    """
+    Relatório: valor líquido de cada servidor e o seu departamento (lotação)
+    em uma competência.
+    Envolve 3 entidades (servidor, lotacao, folha_pagamento) e 2 relacionamentos.
+    """
+    conn = obter_conexao()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT s.nome          AS nome_servidor,
+               l.nome          AS departamento,
+               f.valor_liquido
+        FROM servidor s
+        JOIN lotacao         l ON s.sigla_lotacao = l.sigla
+        JOIN folha_pagamento f ON s.matricula     = f.matricula
+        WHERE f.competencia = %s
+        ORDER BY l.nome, s.nome;
+    """, (competencia,))
+
+    resultados = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return resultados

@@ -80,6 +80,29 @@ def funcionalidade3():
 
     input("\nPressione ENTER para voltar ao menu principal...")
 
+def liquido_por_departamento():
+    print("\n" + "="*60)
+    print(" Líquido por Servidor e Departamento (por competência) ")
+    print("="*60)
+
+    comp = input("Digite a Competência (AAAA-MM-DD): ")
+
+    dados = database.liquido_por_departamento(comp)
+
+    if not dados:
+        print("\n[AVISO] Nenhuma folha encontrada para esta competência.")
+    else:
+        print("\n" + "-" * 75)
+        print(f"{'Servidor':<25} | {'Departamento':<35} | {'Líquido (R$)':<12}")
+        print("-" * 75)
+
+        for nome, departamento, liquido in dados:
+            print(f"{nome:<25} | {departamento:<35} | {liquido:<12.2f}")
+
+        print("-" * 75)
+
+    input("\nPressione ENTER para voltar ao menu principal...")
+
 def main():
     while True:
         print("\n" + "="*40)
@@ -88,7 +111,7 @@ def main():
         print("1. Processar Folha de Pagamento")
         print("2. Consulta de Folhas")
         print("3. Ver Servidores por Lotacao")
-        print("4. Funcionalidade 4")
+        print("4. Liquido por Departamento (competencia)")
         print("0. Sair do Sistema")
         print("="*40)
         
@@ -102,7 +125,7 @@ def main():
             funcionalidade3()
             
         elif opcao == '4':
-            pass
+            liquido_por_departamento()
         elif opcao == '0':
             print("\nEncerrando o sistema...")
             break
